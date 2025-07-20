@@ -15,7 +15,7 @@ body {
   display: flex;
   margin-top: 3rem;
   gap: 10px;
-  align-items: center;
+  align-items: top;
   background: #112240;
   padding: 15px;
   border-radius: 8px;
@@ -27,11 +27,24 @@ input[type="text"] {
   background-color: #112240;
   color: #ccd6f6;
   border: none;
-  padding: 10px;
+  padding: 20px;
+  font-size: 1rem;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   outline: none;
-  width: 250px;
+  width: 300px;
+}
+select,
+input[type="date"] {
+  background-color: #112240;
+  color: #ccd6f6;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  outline: none;
+  width: 125px;
 }
 
 input[type="text"]::placeholder {
@@ -48,7 +61,8 @@ button.submit-btn {
   background-color: #1e90ff;
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 30px;
+  font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
@@ -60,18 +74,21 @@ button.submit-btn:hover {
 
 /* Todo List */
 ul {
+  display: flex;
+  flex-direction: column;
   list-style: none;
   padding: 0;
-  margin: 20px 0;
-  width: 350px;
+  margin: 20px;
+  width: 100%;
 }
 
 li {
   background-color: #112240;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  padding: 10px;
+  width: 450px;
+  padding: 20px;
   margin-bottom: 8px;
   border-radius: 5px;
   transition: background 0.3s ease-in-out;
@@ -81,14 +98,26 @@ li {
 li input[type="checkbox"] {
   accent-color: #1e90ff;
   cursor: pointer;
+  margin: 0;
 }
 
 /* Todo Text */
 li span {
   flex-grow: 1;
-  margin: 0 10px;
+  margin-bottom: 10px;
   color: #ccd6f6;
-  font-size: 16px;
+  font-size: 14px;
+}
+
+.taskTitle {
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.taskInfo {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
 }
 
 /* Button Container */
@@ -97,10 +126,16 @@ li span {
   gap: 8px;
 }
 
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Edit & Delete Buttons */
 button.edit-btn,
 button.delete-btn {
   background: none;
+  font-size: 1rem;
   border: none;
   color: #1e90ff;
   cursor: pointer;
@@ -126,12 +161,12 @@ li.completed {
   color: #8892b0;
 }
 
-li.completed span {
+li.completed p {
   text-decoration: line-through;
   color: #8892b0;
 }
 
 li.completed button {
   opacity: 0.5;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
