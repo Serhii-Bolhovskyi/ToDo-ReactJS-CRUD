@@ -1,5 +1,6 @@
-import Form from "./features/form/Form";
-import TodoList from "./features/todos/TodoList";
+import React from "react";
+import Form from "./features/form/Form.tsx";
+import TodoList from "./features/todos/TodoList.tsx";
 
 function App() {
   return (

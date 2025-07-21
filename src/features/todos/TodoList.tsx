@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector, shallowEqual } from "react-redux";
-import TodoListItem from "./TodoListItem";
+import { RootState } from "../../store.ts";
+import TodoListItem from "./TodoListItem.tsx";
 
-const selectTodoIds = (state) =>
+const selectTodoIds = (state: RootState): number[] =>
   state.todos
     .slice()
     .sort((a, b) => Number(a.completed) - Number(b.completed))

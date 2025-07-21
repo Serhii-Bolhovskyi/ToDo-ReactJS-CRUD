@@ -1,5 +1,6 @@
-// categories
-const initialState = [
+import { Category } from "./types.ts";
+
+const initialState: Category[] = [
   {
     id: 1,
     name: "General",
@@ -22,6 +23,9 @@ const initialState = [
   },
 ];
 
-export default function categoriesReducer(state = initialState, action) {
+export default function categoriesReducer(
+  state: Category[] = initialState,
+  action: any
+): Category[] {
   return state;
 }

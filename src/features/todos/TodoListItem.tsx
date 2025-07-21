@@ -1,12 +1,21 @@
+import React from "react";
+import { RootState } from "../../store.ts";
+import { Todo } from "./todoTypes.ts";
 import { useSelector, useDispatch } from "react-redux";
 
-const selectTodoById = (state, todoId) => {
+type TodoListItemProps = {
+  id: number;
+};
+
+const selectTodoById = (state: RootState, todoId: number): Todo | undefined => {
   return state.todos.find((todo) => todo.id === todoId);
 };
 
-function TodoListItem({ id }) {
-  const todo = useSelector((state) => selectTodoById(state, id));
+const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
+  const todo = useSelector((state: RootState) => selectTodoById(state, id));
   const dispatch = useDispatch();
+
+  if (!todo) return null;
 
   const handleCompletedChanged = () => {
     dispatch({ type: "todos/todoToggled", payload: todo.id });
@@ -41,7 +50,12 @@ function TodoListItem({ id }) {
           <p className="taskTitle">{todo.text}</p>
           <span>📁 Category: {todo.category?.name}</span>
           {todo.completed ? (
-            <span>🕝 Complete at {todo.completeDate.toLocaleString()}</span>
+            <span>
+              🕝 Complete at{" "}
+              {todo.completeDate
+                ? new Date(todo.completeDate).toLocaleString()
+                : ""}
+            </span>
           ) : (
             todo.deadline && <span>🕝 Due: {todo.deadline}</span>
           )}
@@ -56,6 +70,6 @@ function TodoListItem({ id }) {
       </div>
     </li>
   );
-}
+};
 
 export default TodoListItem;
