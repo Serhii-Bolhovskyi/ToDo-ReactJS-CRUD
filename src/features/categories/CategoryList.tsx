@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Category } from "./types.ts";
-import { RootState } from "../../store.ts";
+import { Category } from "./categoriesSlice.ts";
+import { RootState } from "../../root.ts";
 
 interface CategoryListProps {
   selectedCatId: number;

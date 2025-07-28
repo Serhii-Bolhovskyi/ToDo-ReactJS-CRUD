@@ -1,0 +1,56 @@
+import { Todo } from "./features/todos/todoTypes.ts";
+
+const GRAPHQL_ENDPOINT = 'https://localhost:7205/graphql';
+
+const GET_TODOS_QUERY = `
+query {
+  tasks {
+    id
+    title
+    categoryId
+    deadline
+    completeDate
+    isCompleted
+  }
+}
+`;
+
+async function graphqlRequest<T>(
+    query: string,
+    variables?: Record<string, any>
+): Promise<T> {
+    try{
+        const response = await fetch(GRAPHQL_ENDPOINT, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+                "GraphQL-Require-Preflight": "1"
+            },
+            body: JSON.stringify({
+                query,
+                variables,
+            }),
+        })
+        if(!response.ok){
+            throw new Error(`HTTP erroe! status: ${response.status}`)
+        }
+
+        const result = await response.json();
+        if(result.errors){
+            throw new Error(result.errors[0].message || 'GraphQL error')
+        }
+
+        return result.data;
+    }
+    catch(error){
+        console.error("GraphQL request error: ", error)
+        throw error;
+    }
+}
+
+export const todosApi = {
+    async fetchTodos(): Promise<Todo[]>{
+        const data = await graphqlRequest<{tasks: Todo[]}>(GET_TODOS_QUERY);
+        return data.tasks;
+    }
+}

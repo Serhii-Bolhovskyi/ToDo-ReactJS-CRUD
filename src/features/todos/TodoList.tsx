@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector, shallowEqual } from "react-redux";
-import { RootState } from "../../store.ts";
+import { RootState } from "../../root.ts";
 import TodoListItem from "./TodoListItem.tsx";
 
 const selectTodoIds = (state: RootState): number[] =>
-  state.todos
+  state.todos.todos
     .slice()
-    .sort((a, b) => Number(a.completed) - Number(b.completed))
+    .sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted))
     .map((todo) => todo.id);
 
 function TodoList() {

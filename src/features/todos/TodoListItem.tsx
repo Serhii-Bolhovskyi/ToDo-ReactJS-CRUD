@@ -1,5 +1,5 @@
 import React from "react";
-import { RootState } from "../../store.ts";
+import { RootState } from "../../root.ts";
 import { Todo } from "./todoTypes.ts";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -8,7 +8,7 @@ type TodoListItemProps = {
 };
 
 const selectTodoById = (state: RootState, todoId: number): Todo | undefined => {
-  return state.todos.find((todo) => todo.id === todoId);
+  return state.todos.todos.find((todo) => todo.id === todoId);
 };
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
@@ -32,7 +32,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
   };
 
   return (
-    <li className={todo.completed ? "completed" : ""}>
+    <li className={todo.isCompleted ? "completed" : ""}>
       {/* {isEditing ? (
             <>
               <input
@@ -49,13 +49,13 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
       <div className="taskInfo">
         <input
           type="checkbox"
-          checked={todo.completed}
+          checked={todo.isCompleted}
           onChange={() => handleCompletedChanged()}
         />
         <div className="info">
           <p className="taskTitle">{todo.text}</p>
           <span>📁 Category: {categoryName}</span>
-          {todo.completed ? (
+          {todo.isCompleted ? (
             <span>
               🕝 Complete at{" "}
               {todo.completeDate

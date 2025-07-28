@@ -1,4 +1,7 @@
-import { Category } from "./types.ts";
+export interface Category {
+  id: number;
+  name: string;
+}
 
 const initialState: Category[] = [
   {

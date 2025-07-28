@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import { combineEpics } from "redux-observable";
-import { loadTodosEpic } from "./epics/todosEpic.ts";
+import { fetchTodosEpic } from "./todosEpic.ts";
 
 import todosReducer from "./features/todos/todosSlice.ts";
 import categoriesReducer from "./features/categories/categoriesSlice.ts";
 
-export const rootEpic = combineEpics(loadTodosEpic);
+export const rootEpic = combineEpics(fetchTodosEpic);
 
 const rootReducer = combineReducers({
   todos: todosReducer,

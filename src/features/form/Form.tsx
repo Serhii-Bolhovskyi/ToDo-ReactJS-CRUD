@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store.ts";
+import { RootState } from "../../root.ts";
+import { AppDispatch } from "../../store.ts";
+
 
 import CategoryList from "../categories/CategoryList.tsx";
+import { todoActions } from "../todos/todoTypes.ts";
 
 function Form() {
   const [text, setText] = useState<string>("");
   const [selectedCatId, setSelectedCatId] = useState<number>(1);
   const [deadline, setDeadline] = useState<string | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const categories = useSelector((state: RootState) => state.categories);
+
+  useEffect(()=>{
+    dispatch(todoActions.fetchTodosRequest())
+  }, [dispatch])
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,7 +30,7 @@ function Form() {
 
     dispatch({
       type: "todos/todoAdded",
-      payload: { text: text, categoryId: selectedCategory, deadline },
+      payload: { text: text, categoryId: selectedCatId, deadline }
     });
     setText("");
     setSelectedCatId(1);
