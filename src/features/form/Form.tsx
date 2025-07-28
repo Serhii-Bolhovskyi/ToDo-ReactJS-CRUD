@@ -23,7 +23,7 @@ function Form() {
 
     dispatch({
       type: "todos/todoAdded",
-      payload: { text: text, category: selectedCategory, deadline },
+      payload: { text: text, categoryId: selectedCategory, deadline },
     });
     setText("");
     setSelectedCatId(1);

@@ -1,17 +1,6 @@
 import { Todo, TodoAction } from "./todoTypes.ts";
 
-const initialState: Todo[] = [
-  {
-    id: 1,
-    text: "Clean room",
-    category: {
-      id: 1,
-      name: "General",
-    },
-    deadline: "",
-    completed: false,
-  },
-];
+const initialState: Todo[] = [];
 
 function nextTodoId(todos) {
   const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1);
@@ -22,13 +11,15 @@ function todosReducer(
   action: TodoAction
 ): Todo[] {
   switch (action.type) {
+    case "todos/loadSucceeded":
+      return action.payload;
     case "todos/todoAdded": {
       return [
         ...state,
         {
           id: nextTodoId(state),
           text: action.payload.text,
-          category: action.payload.category,
+          categoryId: action.payload.categoryId,
           deadline: action.payload.deadline,
           completed: false,
           completeDate: null,

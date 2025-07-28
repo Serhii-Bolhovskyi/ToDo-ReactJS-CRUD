@@ -13,6 +13,12 @@ const selectTodoById = (state: RootState, todoId: number): Todo | undefined => {
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
   const todo = useSelector((state: RootState) => selectTodoById(state, id));
+  const categoryName = useSelector((state: RootState) => {
+    const category = state.categories.find(
+      (cat) => cat.id === todo?.categoryId
+    );
+    return category?.name || "Unknown";
+  });
   const dispatch = useDispatch();
 
   if (!todo) return null;
@@ -48,7 +54,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
         />
         <div className="info">
           <p className="taskTitle">{todo.text}</p>
-          <span>📁 Category: {todo.category?.name}</span>
+          <span>📁 Category: {categoryName}</span>
           {todo.completed ? (
             <span>
               🕝 Complete at{" "}
