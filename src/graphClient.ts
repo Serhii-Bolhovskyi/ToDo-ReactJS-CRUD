@@ -28,6 +28,25 @@ const ADD_TODO_MUTATION = `
     }
 `;
 
+const DELETE_TODO_MUTATION = `
+  mutation($id: Int!) {
+    deleteTask(id: $id)
+  }
+`;
+
+const UPDATE_TODO_MUTATION = `
+  mutation ($task: taskUpdateInput!) {
+    updateTask(task: $task) {
+      id
+      title
+      categoryId
+      deadline
+      isCompleted
+      completeDate
+    }
+  }
+`;
+
 const convertDate = (date: string | undefined): string | null => {
   if (!date) return null;
   return `${date}T00:00:00`;
@@ -70,6 +89,7 @@ export const todosApi = {
     const data = await graphqlRequest<{ tasks: Todo[] }>(GET_TODOS_QUERY);
     return data.tasks;
   },
+
   async addTask(input: {
     title: string;
     categoryId: number;
@@ -82,5 +102,23 @@ export const todosApi = {
       deadline: convertedDeadline,
     });
     return data.addTask;
+  },
+
+  async updateTask(task: { id: number; isCompleted: boolean }): Promise<Todo> {
+    const data = await graphqlRequest<{ updateTask: Todo }>(
+      UPDATE_TODO_MUTATION,
+      { task }
+    );
+    return data.updateTask;
+  },
+
+  async deleteTask(id: number): Promise<boolean> {
+    const data = await graphqlRequest<{ deleteTask: boolean }>(
+      DELETE_TODO_MUTATION,
+      {
+        id,
+      }
+    );
+    return data.deleteTask;
   },
 };

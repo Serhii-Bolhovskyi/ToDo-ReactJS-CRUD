@@ -2,6 +2,7 @@ import React from "react";
 import { RootState } from "../../root.ts";
 import { Todo } from "./todoTypes.ts";
 import { useSelector, useDispatch } from "react-redux";
+import { todoActions } from "./todoTypes.ts";
 
 type TodoListItemProps = {
   id: number;
@@ -24,11 +25,16 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
   if (!todo) return null;
 
   const handleCompletedChanged = () => {
-    dispatch({ type: "todos/todoToggled", payload: todo.id });
+    dispatch({
+      type: "todos/updateAsyncTodoRequest",
+      payload: {
+        id: todo.id,
+        isCompleted: !todo.isCompleted,
+      },
+    });
   };
-
   const handleDeletedTodo = () => {
-    dispatch({ type: "todos/todoDeleted", payload: todo.id });
+    dispatch({ type: "todos/deleteAsyncTodoRequest", payload: todo.id });
   };
 
   return (

@@ -35,7 +35,18 @@ export type TodoAction =
       payload: { title: string; categoryId: number; deadline?: string };
     }
   | { type: "todos/addAsyncTodoSuccess"; payload: Todo }
-  | { type: "todos/addAsyncTodoFailure"; payload: string };
+  | { type: "todos/addAsyncTodoFailure"; payload: string }
+  // Екшени для асинхронного оновлення
+  | {
+      type: "todos/updateAsyncTodoRequest";
+      payload: { id: number; isCompleted: boolean };
+    }
+  | { type: "todos/updateAsyncTodoSuccess"; payload: Todo }
+  | { type: "todos/updateAsyncTodoFailure"; payload: string }
+  // екшени для асинхронного видалення
+  | { type: "todos/deleteAsyncTodoRequest"; payload: number }
+  | { type: "todos/deleteAsyncTodoSuccess"; payload: number }
+  | { type: "todos/deleteAsyncTodoFailure"; payload: string };
 
 export const todoActions = {
   fetchTodosRequest: () => ({ type: "todos/fetchTodosRequest" } as const),
@@ -66,6 +77,36 @@ export const todoActions = {
   addAsyncTodoFailure: (error: string) =>
     ({
       type: "todos/addAsyncTodoFailure",
+      payload: error,
+    } as const),
+  updateAsyncTodoRequest: (todo: { id: number; isCompleted: boolean }) =>
+    ({
+      type: "todos/updateAsyncTodoRequest",
+      payload: todo,
+    } as const),
+  updateAsyncTodoSuccess: (todo: Todo) =>
+    ({
+      type: "todos/updateAsyncTodoSuccess",
+      payload: todo,
+    } as const),
+  updateAsyncTodoFailure: (error: string) =>
+    ({
+      type: "todos/updateAsyncTodoFailure",
+      payload: error,
+    } as const),
+  deleteAsyncTodoRequest: (id: number) =>
+    ({
+      type: "todos/deleteAsyncTodoRequest",
+      payload: id,
+    } as const),
+  deleteAsyncTodoSuccess: (id: number) =>
+    ({
+      type: "todos/deleteAsyncTodoSuccess",
+      payload: id,
+    } as const),
+  deleteAsyncTodoFailure: (error: string) =>
+    ({
+      type: "todos/deleteAsyncTodoFailure",
       payload: error,
     } as const),
 };

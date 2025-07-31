@@ -69,22 +69,60 @@ function todosReducer(
       return {
         ...state,
         todos: [...state.todos, action.payload],
-        // todos: [
-        //   ...state.todos,
-        //   {
-        //     id: nextTodoId(state),
-        //     title: action.payload.title,
-        //     categoryId: action.payload.categoryId,
-        //     deadline: action.payload.deadline,
-        //     isCompleted: false,
-        //     completeDate: null,
-        //   },
-        // ],
         loading: false,
         error: null,
       };
     }
     case "todos/addAsyncTodoFailure": {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    // асинхронне оновлення туду
+    case "todos/updateAsyncTodoRequest": {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    }
+    case "todos/updateAsyncTodoSuccess": {
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload.id ? action.payload : todo
+        ),
+        loading: false,
+        error: null,
+      };
+    }
+    case "todos/updateAsyncTodoFailure": {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+
+    // асинхронне видалення туду
+    case "todos/deleteAsyncTodoRequest": {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    }
+    case "todos/deleteAsyncTodoSuccess": {
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
+        loading: false,
+        error: null,
+      };
+    }
+    case "todos/deleteAsyncTodoFailure": {
       return {
         ...state,
         loading: false,

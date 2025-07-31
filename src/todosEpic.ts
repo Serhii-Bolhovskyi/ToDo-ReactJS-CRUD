@@ -30,3 +30,33 @@ export const addTodoEpic: Epic<TodoAction, TodoAction, RootState> = (action$) =>
       )
     )
   );
+
+export const deleteTodoEpic: Epic<TodoAction, TodoAction, RootState> = (
+  action$
+) =>
+  action$.pipe(
+    ofType("todos/deleteAsyncTodoRequest"),
+    switchMap((action) =>
+      from(todosApi.deleteTask(action.payload)).pipe(
+        map(() => todoActions.deleteAsyncTodoSuccess(action.payload)),
+        catchError((error) =>
+          of(todoActions.deleteAsyncTodoFailure(error.message))
+        )
+      )
+    )
+  );
+
+export const updateTodoEpic: Epic<TodoAction, TodoAction, RootState> = (
+  action$
+) =>
+  action$.pipe(
+    ofType("todos/updateAsyncTodoRequest"),
+    switchMap((action) =>
+      from(todosApi.updateTask(action.payload)).pipe(
+        map((todo) => todoActions.updateAsyncTodoSuccess(todo)),
+        catchError((error) =>
+          of(todoActions.updateAsyncTodoFailure(error.message))
+        )
+      )
+    )
+  );
