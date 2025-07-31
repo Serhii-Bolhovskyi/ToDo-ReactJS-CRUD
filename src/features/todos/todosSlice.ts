@@ -1,13 +1,16 @@
-import { Todo, TodoAction, TodosState } from "./todoTypes.ts";
+import { TodoAction, TodosState } from "./todoTypes.ts";
 
 const initialState: TodosState = {
   todos: [],
   loading: false,
-  error: null
+  error: null,
 };
 
 function nextTodoId(todos) {
-  const maxId = todos.todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1);
+  const maxId = todos.todos.reduce(
+    (maxId, todo) => Math.max(todo.id, maxId),
+    -1
+  );
   return maxId + 1;
 }
 function todosReducer(
@@ -15,7 +18,7 @@ function todosReducer(
   action: TodoAction
 ): TodosState {
   switch (action.type) {
-   case "todos/fetchTodosRequest": {
+    case "todos/fetchTodosRequest": {
       return {
         ...state,
         loading: true,
@@ -37,21 +40,56 @@ function todosReducer(
         error: action.payload,
       };
     }
-    case "todos/todoAdded": {
+    // local
+    // case "todos/todoAdded": {
+    //   return {
+    //     ...state,
+    //     todos: [
+    //       ...state.todos,
+    //       {
+    //         id: nextTodoId(state),
+    //         title: action.payload.title,
+    //         categoryId: action.payload.categoryId,
+    //         deadline: action.payload.deadline,
+    //         isCompleted: false,
+    //         completeDate: null,
+    //       },
+    //     ],
+    //   };
+    // }
+    // асинхронне додавання туду
+    case "todos/addAsyncTodoRequest": {
       return {
         ...state,
-        todos: [
-          ...state.todos,
-          {
-          id: nextTodoId(state),
-          text: action.payload.text,
-          categoryId: action.payload.categoryId,
-          deadline: action.payload.deadline,
-          isCompleted: false,
-          completeDate: null,
-        },
-      ]
+        loading: true,
+        error: null,
+      };
     }
+    case "todos/addAsyncTodoSuccess": {
+      return {
+        ...state,
+        todos: [...state.todos, action.payload],
+        // todos: [
+        //   ...state.todos,
+        //   {
+        //     id: nextTodoId(state),
+        //     title: action.payload.title,
+        //     categoryId: action.payload.categoryId,
+        //     deadline: action.payload.deadline,
+        //     isCompleted: false,
+        //     completeDate: null,
+        //   },
+        // ],
+        loading: false,
+        error: null,
+      };
+    }
+    case "todos/addAsyncTodoFailure": {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     }
     // case "todos/todoToggled": {
     //   return state.map((todo) => {

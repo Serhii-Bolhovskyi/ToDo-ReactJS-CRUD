@@ -36,7 +36,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
       {/* {isEditing ? (
             <>
               <input
-                type="text"
+                type="title"
                 value={editText}
                 onChange={(e) => setEditText(e.target.value)}
                 onBlur={handleSaveEdit}
@@ -44,7 +44,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
               />
             </>
           ) : (
-            <span onDoubleClick={() => setIsEditing(true)}>{task.text}</span>
+            <span onDoubleClick={() => setIsEditing(true)}>{task.title}</span>
           )} */}
       <div className="taskInfo">
         <input
@@ -53,7 +53,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
           onChange={() => handleCompletedChanged()}
         />
         <div className="info">
-          <p className="taskTitle">{todo.text}</p>
+          <p className="taskTitle">{todo.title}</p>
           <span>📁 Category: {categoryName}</span>
           {todo.isCompleted ? (
             <span>
@@ -63,7 +63,11 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ id }) => {
                 : ""}
             </span>
           ) : (
-            todo.deadline && <span>🕝 Due: {todo.deadline}</span>
+            todo.deadline && (
+              <span>
+                🕝 Due: {new Date(todo.deadline).toLocaleDateString()}
+              </span>
+            )
           )}
         </div>
       </div>

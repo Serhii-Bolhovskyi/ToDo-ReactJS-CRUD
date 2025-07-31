@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../root.ts";
 import { AppDispatch } from "../../store.ts";
 
-
 import CategoryList from "../categories/CategoryList.tsx";
 import { todoActions } from "../todos/todoTypes.ts";
 
@@ -16,9 +15,9 @@ function Form() {
 
   const categories = useSelector((state: RootState) => state.categories);
 
-  useEffect(()=>{
-    dispatch(todoActions.fetchTodosRequest())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(todoActions.fetchTodosRequest());
+  }, [dispatch]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,8 +28,8 @@ function Form() {
     );
 
     dispatch({
-      type: "todos/todoAdded",
-      payload: { text: text, categoryId: selectedCatId, deadline }
+      type: "todos/addAsyncTodoRequest",
+      payload: { title: text, categoryId: selectedCatId, deadline },
     });
     setText("");
     setSelectedCatId(1);

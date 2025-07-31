@@ -17,3 +17,16 @@ export const fetchTodosEpic: Epic<TodoAction, TodoAction, RootState> = (
       )
     )
   );
+
+export const addTodoEpic: Epic<TodoAction, TodoAction, RootState> = (action$) =>
+  action$.pipe(
+    ofType("todos/addAsyncTodoRequest"),
+    switchMap((action) =>
+      from(todosApi.addTask(action.payload)).pipe(
+        map((todo) => todoActions.addAsyncTodoSuccess(todo)),
+        catchError((error) =>
+          of(todoActions.addAsyncTodoFailure(error.message))
+        )
+      )
+    )
+  );
